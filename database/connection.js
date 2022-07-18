@@ -4,9 +4,9 @@ import { createPool } from 'mysql'
 const pool = createPool({
   port: process.env.DB_PORT,
   host: process.env.DB_HOST,
-  user: process.env.DB_USER,
+  user: 'root',
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+  database: 'medical-app-db',
   connectionLimit: 10
 })
 export default pool
