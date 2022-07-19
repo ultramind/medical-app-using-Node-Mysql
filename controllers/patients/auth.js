@@ -1,9 +1,8 @@
-import { findMany, findOneByAug } from '../utils.js'
+import { findMany, findOneByAug, generateToken } from '../utils.js'
 import { create } from '../../models/patients/auth.js'
-import { genSaltSync, hashSync } from 'bcrypt'
+import { genSaltSync, hashSync, compareSync } from 'bcrypt'
 
 // signup controller
-
 export const createPatient = (req, res) => {
   const body = req.body
   // checking for duplicate patients
@@ -30,7 +29,7 @@ export const createPatient = (req, res) => {
     if (!result[0]) {
       const salt = genSaltSync(10)
       body.password = hashSync(body.password, salt)
-      body.updatedAt = Date.now();
+      body.updatedAt = Date.now()
       create(body, (err, callback) => {
         if (err) {
           console.log(err)
@@ -45,6 +44,48 @@ export const createPatient = (req, res) => {
         })
       })
     }
+  })
+}
+// signup controller
+export const loginPatient = (req, res) => {
+  const body = req.body
+  // checking for duplicate patients
+  const data = {
+    tableName: 'patients',
+    colum: 'email',
+    value: body.email
+  }
+  findOneByAug(data, (err, result) => {
+    if (err) {
+      console.log(err)
+      return res.status(500).json({
+        success: 0,
+        message: 'Database error!'
+      })
+    }
+    if (!result[0]) {
+      console.log(result[0]);
+      return res.status(401).json({
+        success: 0,
+        message: 'Invalid email and password!'
+      })
+    }
+    const verify = compareSync(body.password, result[0].password)
+    console.log(verify);
+    console.log(body.password);
+    if (!verify) {
+      return res.status(401).json({
+        success: 0,
+        message: 'Invalid email and password!'
+      })
+    }
+
+    const token = generateToken(result[0])
+    return res.status(200).json({
+      success: 1,
+      message: 'Login successful!',
+      token
+    })
   })
 }
 

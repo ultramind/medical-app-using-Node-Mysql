@@ -1,4 +1,5 @@
 import pool from '../database/connection.js'
+import Jwt from 'jsonwebtoken'
 
 export const findOneById = ({ tableName, _id }, callBack) => {
   pool.query(
@@ -36,4 +37,20 @@ export const findMany = ({ tableName }, callBack) => {
     }
     return callBack(null, result)
   })
+}
+
+// jwt
+export const generateToken = data => {
+  return Jwt.sign(
+    {
+      _id: data._id,
+      fullname: data.fullname,
+      email: data.email,
+      phone: data.phone,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt
+    },
+    process.env.SECRET_KEY,
+    { expiresIn: '1hr' }
+  )
 }
