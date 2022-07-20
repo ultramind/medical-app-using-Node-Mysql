@@ -4,7 +4,7 @@ import {
   getAllPatients,
   createPatient,
   loginPatient
-} from '../../controllers/patients/auth.js'
+} from '../controllers/patients/auth.js'
 
 router.get('/', getAllPatients)
 router.post('/signup', createPatient)

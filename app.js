@@ -2,7 +2,8 @@ import express from 'express'
 import dotenv from 'dotenv'
 
 // import routes
-import patientRoutes from './routes/patients/patientsRoutes.js'
+import patientsRoutes from './routes/patientsRoutes.js'
+import doctorsRoutes from './routes/doctorsRoutes.js'
 
 // initalizing the express
 const app = express()
@@ -10,7 +11,10 @@ const app = express()
 dotenv.config()
 app.use(express.json())
 
-app.use('/api/patients/auth', patientRoutes)
+// routes
+app.use('/api/patients/auth', patientsRoutes)
+app.use('/api/doctors/auth', doctorsRoutes)
+
 // app listing
 app.listen(process.env.PORT, () => {
   console.log('Server up and runing on port: ', process.env.PORT)
