@@ -1,6 +1,6 @@
 import { findMany, findOneByAug, generateToken } from '../utils.js'
 import { create } from '../../models/patients/auth.js'
-import { genSaltSync, hashSync, compareSync } from 'bcrypt'
+import { genSaltSync, hashSync, compareSync, compare } from 'bcrypt'
 
 // signup controller
 export const createPatient = (req, res) => {
@@ -47,6 +47,7 @@ export const createPatient = (req, res) => {
   })
 }
 // signup controller
+
 export const loginPatient = (req, res) => {
   const body = req.body
   // checking for duplicate patients
@@ -64,23 +65,22 @@ export const loginPatient = (req, res) => {
       })
     }
     if (!result[0]) {
-      console.log(result[0]);
+      console.log(result[0])
       return res.status(401).json({
         success: 0,
         message: 'Invalid email and password!'
       })
     }
-    const verify = compareSync(body.password, result[0].password)
-    console.log(verify);
-    console.log(body.password);
+    result = result[0]
+    var verify = compareSync(body.password, result.password)
     if (!verify) {
       return res.status(401).json({
         success: 0,
         message: 'Invalid email and password!'
       })
     }
-
-    const token = generateToken(result[0])
+    // generating jwt token
+    const token = generateToken(result)
     return res.status(200).json({
       success: 1,
       message: 'Login successful!',
