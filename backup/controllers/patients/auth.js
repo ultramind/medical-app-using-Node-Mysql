@@ -1,13 +1,13 @@
-const { findMany, findOneByAug, generateToken } = require('../utils.js')
-const create = require('../../models/doctors/auth.js')
-const { genSaltSync, hashSync, compareSync } = require('bcrypt')
+import { findMany, findOneByAug, generateToken } from '../utils.js'
+import { create } from '../../models/patients/auth.js'
+import { genSaltSync, hashSync, compareSync, compare } from 'bcrypt'
 
 // signup controller
-const createDoctors = (req, res) => {
+export const createPatient = (req, res) => {
   const body = req.body
   // checking for duplicate patients
   const data = {
-    tableName: 'doctors',
+    tableName: 'patients',
     colum: 'email',
     value: body.email
   }
@@ -48,7 +48,7 @@ const createDoctors = (req, res) => {
 }
 // signup controller
 
-const loginDoctor = (req, res) => {
+export const loginPatient = (req, res) => {
   const body = req.body
   // checking for duplicate patients
   const data = {
@@ -89,7 +89,7 @@ const loginDoctor = (req, res) => {
   })
 }
 
-const getAllDoctors = (req, res) => {
+export const getAllPatients = (req, res) => {
   const info = {
     tableName: 'patients'
   }
@@ -113,10 +113,4 @@ const getAllDoctors = (req, res) => {
       data: results
     })
   })
-}
-
-module.exports = {
-  createDoctors,
-  loginDoctor,
-  getAllDoctors
 }

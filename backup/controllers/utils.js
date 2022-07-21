@@ -1,7 +1,7 @@
-const pool = require('../database/connection.js')
-const Jwt = require('jsonwebtoken')
+import pool from '../database/connection.js'
+import Jwt from 'jsonwebtoken'
 
-const findOneById = ({ tableName, _id }, callBack) => {
+export const findOneById = ({ tableName, _id }, callBack) => {
   pool.query(
     `select * from ${data.tableName} where _id=?`,
     [_id],
@@ -15,7 +15,7 @@ const findOneById = ({ tableName, _id }, callBack) => {
   )
 }
 
-const findOneByAug = ({ tableName, colum, value }, callBack) => {
+export const findOneByAug = ({ tableName, colum, value }, callBack) => {
   pool.query(
     `select * from ${tableName} where ${colum}=?`,
     [value],
@@ -29,7 +29,7 @@ const findOneByAug = ({ tableName, colum, value }, callBack) => {
   )
 }
 // fetch many
-const findMany = ({ tableName }, callBack) => {
+export const findMany = ({ tableName }, callBack) => {
   pool.query(`select * from ${tableName}`, [], (err, result, fields) => {
     if (err) {
       console.log(err)
@@ -40,7 +40,7 @@ const findMany = ({ tableName }, callBack) => {
 }
 
 // jwt
-const generateToken = data => {
+export const generateToken = data => {
   return Jwt.sign(
     {
       _id: data._id,
@@ -53,11 +53,4 @@ const generateToken = data => {
     process.env.SECRET_KEY,
     { expiresIn: '1hr' }
   )
-}
-
-module.exports = {
-  findOneById,
-  findOneByAug,
-  findMany,
-  generateToken
 }

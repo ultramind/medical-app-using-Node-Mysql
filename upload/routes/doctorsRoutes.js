@@ -4,7 +4,7 @@ const {
   getAllDoctors,
   createDoctors,
   loginDoctor
-} = require('../controllers/doctors/auth')
+} = require('../controllers/Doctors/auth.js')
 
 router.get('/', getAllDoctors)
 router.post('/signup', createDoctors)

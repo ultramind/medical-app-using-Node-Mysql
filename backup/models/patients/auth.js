@@ -1,7 +1,7 @@
-const pool = require('../../database/connection.js')
+import pool from '../../database/connection.js'
 
 // create and account
-const create = (data, callBack) => {
+export const create = (data, callBack) => {
   pool.query(
     `insert into patients (fullname, email, phone, password, updatedAt) values(?,?,?,?,?)`,
     [data.fullname, data.email, data.phone, data.password, data.updatedAt],
@@ -14,5 +14,3 @@ const create = (data, callBack) => {
     }
   )
 }
-
-module.exports = create

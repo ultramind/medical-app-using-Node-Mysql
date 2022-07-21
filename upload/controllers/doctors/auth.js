@@ -1,5 +1,5 @@
 const { findMany, findOneByAug, generateToken } = require('../utils.js')
-const create = require('../../models/doctors/auth.js')
+const { create } = require('../../models/doctors/auth.js')
 const { genSaltSync, hashSync, compareSync } = require('bcrypt')
 
 // signup controller
